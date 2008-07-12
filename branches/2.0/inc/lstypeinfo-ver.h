@@ -28,6 +28,6 @@
 #define verOrigName     "bvr20983.2.lstypeinfo.1.exe"
 #define verMakeDate     "2008-07-11T15:42:28.426687Z"
 #define verCompPrefix   "lstypeinfo.1"
-#define verDebugVersion "1"
+#define verDebugVersion "0"
 
 #endif // LSTYPEINFOVER_H

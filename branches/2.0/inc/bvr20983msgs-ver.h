@@ -28,7 +28,7 @@
 #define verOrigName     "bvr20983.2.msgs.1.dll"
 #define verMakeDate     "2008-07-11T15:42:28.426687Z"
 #define verCompPrefix   "msgs.1"
-#define verDebugVersion "1"
+#define verDebugVersion "0"
 
 #endif // BVR20983MSGSVER_H
 
