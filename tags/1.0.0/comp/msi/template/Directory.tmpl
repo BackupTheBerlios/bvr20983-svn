@@ -1,0 +1,11 @@
+Directory	Directory_Parent	DefaultDir
+s72	S72	l255
+Directory	Directory
+TARGETDIR		SourceDir
+ProgramFilesFolder	TARGETDIR	.
+ProgramMenuFolder	TARGETDIR	.
+StartupMenuFolder	ProgramMenuFolder	@ProductId@
+BVRDIR	ProgramFilesFolder	@ProductId@
+BINDIR	BVRDIR	bin
+DOCDIR	BVRDIR	doc
+SAMPLEDIR	BVRDIR	samples

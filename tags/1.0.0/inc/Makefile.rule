@@ -1,0 +1,106 @@
+# $Id$
+# 
+# Copyright (C) 2008 Dorothea Wachmann
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see http://www.gnu.org/licenses/.
+#
+!IFNDEF _MAKEFILE_RULE_
+_MAKEFILE_RULE_ = 1
+
+# Inference rule for updating the object files
+{$(SRCDIR)\sc}.cpp{$(OUTDIR)}.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) $(cuseprecompheader) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+{$(SRCDIR)\win}.cpp{$(OUTDIR)}.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) $(cuseprecompheader) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+{$(SRCDIR)\util}.cpp{$(OUTDIR)}.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) $(cuseprecompheader) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+{$(SRCDIR)\exception}.cpp{$(OUTDIR)}.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) $(cuseprecompheader) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+{$(SRCDIR)\com}.cpp{$(OUTDIR)}.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) $(cuseprecompheader) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+{$(SRCDIR)\com\ocx}.cpp{$(OUTDIR)}.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) $(cuseprecompheader) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+{$(SRCDIR)\com\sc}.cpp{$(OUTDIR)}.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) $(cuseprecompheader) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+{$(SRCDIR)\cab}.cpp{$(OUTDIR)}.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) $(cuseprecompheader) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+{$(SRCDIR)}.cpp{$(OUTDIR)}.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) $(cuseprecompheader) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+{$(RESDIR)}.mc{$(OUTDIR)}.bin:
+  $(mc) -r $(OUTDIR) -h $(OUTDIR) -w $**
+
+{$(RESDIR)}.rc{$(OUTDIR)}.res:
+  $(rc) $(rcflags) $(rcvars) -fo $@ $**
+
+.c.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+# Rule for creating precompiled header file
+$(OUTDIR)\os.obj: $(SRCDIR)\os.cpp
+  $(cc) $(cdebug) $(cflags) $(cvars) $(cvarsadd) $(ccrtprecompheader) -Fo"$(OUTDIR)\\" -Fd"$(OUTDIR)\\" $**
+
+$(RESULTDIR):
+  if not exist "$(RESULTDIR)/$(NULL)" mkdir $(RESULTDIR)
+
+$(DISTDIR):
+  if not exist "$(DISTDIR)/$(NULL)" mkdir $(DISTDIR)
+
+$(SIGNDIR):
+  if not exist "$(SIGNDIR)/$(NULL)" mkdir $(SIGNDIR)
+
+$(MSIDIR):
+  if not exist "$(MSIDIR)/$(NULL)" mkdir $(MSIDIR)
+
+$(OUTDIR):
+  @if not exist "$(OUTDIR)/$(NULL)" mkdir $(OUTDIR)
+
+$(SLNDIR):
+ if not exist "$(SLNDIR)/$(NULL)" mkdir $(SLNDIR)
+
+fullclean:
+  if exist $(DISTDIR)/$(NULL) rd /s /q $(DISTDIR)
+  if exist $(SIGNDIR)/$(NULL) rd /s /q $(SIGNDIR)
+  if exist $(MSIDIR)/$(NULL) rd /s /q $(MSIDIR)
+  if exist $(SLNDIR)/$(NULL) rd /s /q $(SLNDIR)
+  if exist $(RESULTDIR)/$(NULL) rd /s /q $(RESULTDIR)
+
+{$(SLNDIR)}.dll{$(SIGNDIR)}.dll:
+  @if not exist "$(signkey)" echo NO signkey GIVEN
+  @if "$(signpwd)"==""  echo NO signpwd GIVEN
+	@copy $< $@
+	@$(sign) $(signvars) /p $(signpwd) $@
+
+{$(SLNDIR)}.exe{$(SIGNDIR)}.exe:
+  @if not exist "$(signkey)" echo NO signkey GIVEN
+  @if "$(signpwd)"==""  echo NO signpwd GIVEN
+	@copy $< $@
+	@$(sign) $(signvars) /p $(signpwd) $@
+
+{$(MSIDIR)}.msi{$(SIGNDIR)}.msi:
+  @if not exist "$(signkey)" echo NO signkey GIVEN
+  @if "$(signpwd)"==""  echo NO signpwd GIVEN
+	@copy $< $@
+	@$(sign) $(signvars) /p $(signpwd) $@
+
+#ENDIF _MAKEFILE_RULE_
+!ENDIF
